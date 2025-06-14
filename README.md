@@ -65,6 +65,6 @@ Ideal for secure and fast churn evaluations.
 Built during Hackathon Beast 2025, a 48-hour challenge to create a real-world AI product.
 Our goal: insights, impact, and interpretability in minutes.
 
-<p align="center"><b>Made with ❤️ by Chetan Ramrakhya, Tushar Vashishth, and AI</b></p> <p align="center"><i>“Made with ❤️ for the Hackathon”</i></p> ```
+<p align="center"><b>Made with ❤️ by Chetan Ramrakhya and AI</b></p> <p align="center"><i>“Made with ❤️ for the Hackathon”</i></p> ```
 
 
