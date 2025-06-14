@@ -69,9 +69,20 @@ if uploaded_file:
         styled_df = result_df.style.background_gradient(cmap='RdYlGn_r', subset=['Churn Probability (%)'])
         st.dataframe(styled_df, use_container_width=True)
 
-        # Top 10 high-risk
+        # Top 10 high-risk with color-coded labels
         st.subheader("🚨 Top 10 At-Risk Customers")
-        st.dataframe(result_df.sort_values("Churn Probability (%)", ascending=False).head(10), use_container_width=True)
+        top10_df = result_df.sort_values("Churn Probability (%)", ascending=False).head(10).copy()
+
+        def risk_label(prob):
+            if prob >= 80:
+                return "🔴 High"
+            elif prob >= 40:
+                return "🟡 Medium"
+            else:
+                return "🟢 Low"
+
+        top10_df["Risk Level"] = top10_df["Churn Probability (%)"].apply(risk_label)
+        st.dataframe(top10_df, use_container_width=True)
 
         # Visualize churn probability distribution
         st.subheader("📊 Churn Probability Distribution")
