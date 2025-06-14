@@ -1,56 +1,45 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Model-XGBoost-orange?logo=xgboost" />
-  <img src="https://img.shields.io/badge/Framework-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
-  <img src="https://img.shields.io/badge/Deployment-Live-success?logo=vercel&style=flat" />
-  <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction?color=brightgreen" />
-</p>
-
-<h1 align="center">🔮 Customer Churn Prediction Tool</h1>
-
-<p align="center">
-  🚀 Built in a 48-hour hackathon to identify customers at risk of churning using AI, and provide actionable insights with a clean interactive dashboard.
+  <img src="https://img.shields.io/badge/Model-XGBoost-orange" />
+  <img src="https://img.shields.io/badge/Built_with-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deployment-Auto_with_GitHub_Actions-success?logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Hackathon_Beast-%F0%9F%90%BE-blueviolet" />
+  <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction" />
 </p>
 
 ---
 
-## 🔗 Live App
+<h1 align="center">🔮 Churn Prediction - Premium AI Dashboard</h1>
 
-**🌐 [Try the App Now](https://churn-prediction-7oengduhpztxudfa56kppu.streamlit.app/)**
-
----
-
-## 📦 Features
-
-- 📤 Upload your `.csv` customer dataset
-- 🧠 Predict **Churn Probabilities** with a trained **XGBoost** model
-- 🌈 Color-coded results for better interpretation
-- 🚨 Highlights Top 10 high-risk customers
-- 📈 Churn distribution visual (bar graph)
-- 📉 SHAP-based feature importance for insights
-- 💾 Download predictions as CSV
-- 💻 Live deployment (auto-updates from GitHub)
+> A beautifully crafted AI-powered tool to predict **customer churn** built in a 48-hour hackathon.  
+> This app helps fintech businesses stay ahead by identifying customers at risk of leaving.
 
 ---
 
-## 🛠 Tech Stack
+## ✨ Features
 
-| Layer         | Tool/Library                          |
-|--------------|----------------------------------------|
-| Frontend     | Streamlit (Python Web App Framework)   |
-| ML Model     | XGBoost (Ensemble Learning)            |
-| Preprocessing| Scikit-learn: OneHotEncoder, Scaler    |
-| Explainability | SHAP (SHapley Additive exPlanations) |
-| Visuals      | Matplotlib, Seaborn                    |
-| Deployment   | Streamlit Cloud                        |
-
----
-
-## 🧪 Demo
-
-> 🖼️ Screenshots or demo video coming soon!
+- ✅ Upload your own `.csv` customer data
+- 📊 Predict customer churn with **XGBoost**
+- 🎯 Get churn probabilities color-coded in real time
+- 🚨 Top 10 at-risk customers highlighted
+- 📉 Interactive visual trend analysis
+- 🧠 SHAP explainability (waterfall view) included
+- 💾 Download results as CSV
+- 🔄 Auto-deployed with GitHub Actions (badge above)
 
 ---
 
-## 📂 Folder Structure
+## 🧠 Tech Stack
+
+| Layer        | Tools Used                               |
+|-------------|-------------------------------------------|
+| Interface   | `Streamlit`, `Markdown`, `seaborn`, `matplotlib` |
+| Model       | `XGBoost Classifier`                      |
+| Preprocessing | `StandardScaler`, `OneHotEncoder`        |
+| Explainability | `SHAP`                                |
+| Deployment  | `Streamlit Cloud`, `GitHub Actions`       |
+
+---
+
+## 📁 Project Structure
 
