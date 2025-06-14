@@ -3,86 +3,68 @@
   <img src="https://img.shields.io/badge/Model-XGBoost-orange" />
   <img src="https://img.shields.io/badge/Built_with-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
   <img src="https://github.com/chetan-r25/churn-prediction/actions/workflows/deploy.yml/badge.svg" alt="GitHub Actions Status" />
-  <img src="https://img.shields.io/badge/Hackathon_Beast-%F0%9F%90%BE-blueviolet" />
+  <img src="https://img.shields.io/badge/Hackathon_Beast-🚀-blueviolet" />
   <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction" />
 </p>
 
 ---
 
-```text
-   _____ _                      _____           _     _             
-  / ____| |                    |  __ \         (_)   | |            
- | |    | |__   ___  ___ ___   | |__) |_ _ _ __ _  __| | ___  _ __  
- | |    | '_ \ / _ \/ __/ __|  |  ___/ _` | '__| |/ _` |/ _ \| '_ \ 
- | |____| | | |  __/\__ \__ \  | |  | (_| | |  | | (_| | (_) | | | |
-  \_____|_| |_|\___||___/___/  |_|   \__,_|_|  |_|\__,_|\___/|_| |_|
+# 🔍 Customer Churn Prediction Dashboard
 
-     🧠 AI-Driven Churn Prediction Dashboard • Built in 48hrs
+A powerful, AI-powered churn prediction tool crafted during a 48-hour hackathon to help businesses retain their customers intelligently.
 
-🔍 Customer Churn Prediction Dashboard
-A powerful, AI-powered churn prediction tool crafted during a 48-hour hackathon to help businesses retain their customers with confidence.
+> 💡 **Live App**: [Click here to try it](https://churn-prediction-7oengduhpztxudfa56kppu.streamlit.app)
 
-🎯 Live App: Click here to try it 🚀
+---
 
-✨ Features
-📤 Upload .csv customer data
+## 🎯 Key Features
 
-📊 Predict churn probability for every customer
+- 📤 Upload `.csv` customer data
+- 🤖 Predict churn probability for every customer
+- 🚨 View top 10 at-risk customers (🔴 / 🟡 / 🟢)
+- 📈 Visual insights: histogram & trendline
+- 📌 Feature importance bar plot (XGBoost-based)
+- 📥 Download predictions as `.csv`
+- 🔁 Auto-deployed via GitHub Actions + Streamlit Cloud
 
-🎯 View top 10 at-risk customers with risk levels (🔴 / 🟡 / 🟢)
+---
 
-🧠 Model-based feature importance plot
-
-📈 Visual insights: histogram + trend line of churn probabilities
-
-📥 Download predictions directly as .csv
-
-🔁 Auto-deployed via GitHub Actions + Streamlit Cloud
-
-⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 | Layer          | Tool                             |
-| -------------- | -------------------------------- |
+|----------------|----------------------------------|
 | ML Model       | XGBoost                          |
-| Encoding       | `OneHotEncoder`                  |
-| Scaling        | `StandardScaler`                 |
-| Frontend UI    | Streamlit                        |
-| Plots & Viz    | Matplotlib, Seaborn              |
+| Preprocessing  | OneHotEncoder, StandardScaler    |
+| Frontend       | Streamlit                        |
+| Visualization  | Seaborn, Matplotlib              |
 | Deployment     | GitHub Actions + Streamlit Cloud |
-| Explainability | Feature Importance (XGBoost)     |
+| Explainability | XGBoost Feature Importances      |
 
-📁 Project Structure
+---
+
+## 📁 Folder Structure
 churn-prediction/
-├── app.py                  # Streamlit dashboard
-├── encoder.pkl             # Fitted encoder
-├── scaler.pkl              # Fitted scaler
-├── xgb_churn_model.pkl     # Trained model
-├── requirements.txt        # Dependencies
-├── README.md               # This documentation
+├── app.py # Streamlit dashboard
+├── encoder.pkl # Fitted OneHotEncoder
+├── scaler.pkl # Fitted StandardScaler
+├── xgb_churn_model.pkl # Trained model
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
 └── .github/
-    └── workflows/
-        └── deploy.yml      # GitHub Actions deploy pipeline
+└── workflows/
+└── deploy.yml # GitHub Actions deploy pipeline
 
-🧪 Local Run Instructions
-git clone https://github.com/chetan-r25/churn-prediction
-cd churn-prediction
-pip install -r requirements.txt
-streamlit run app.py
-
-
-🔐 Privacy & Security
+🔐 Privacy First
 The app runs entirely client-side in your browser.
 
-Your uploaded data is never stored or shared.
+Uploaded data is never stored or transmitted.
 
-Ideal for quick, secure churn evaluations in real time.
+Ideal for secure and fast churn evaluations.
+
+🏆 Hackathon Contribution
+Built during Hackathon Beast 2025, a 48-hour challenge to create a real-world AI product.
+Our goal: insights, impact, and interpretability in minutes.
+
+<p align="center"><b>Made with ❤️ by Chetan Ramrakhya, Tushar Vashishth, and AI</b></p> <p align="center"><i>“Made with ❤️ for the Hackathon”</i></p> ```
 
 
-🚀 Hackathon Contribution
-Built for Hackathon Beast 2025 — a 48-hour challenge to create an intelligent AI product from scratch.
-Our goal: deliver insights, impact, and interpretability in minutes.
-
-❤️ Made with care by
-Chetan Ramrakhya, Tushar Vashishth, and AI.
-
-“Made with ❤️ for the Hackathon”
