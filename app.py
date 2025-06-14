@@ -13,7 +13,7 @@ scaler = joblib.load("scaler.pkl")
 # Streamlit page config
 st.set_page_config(page_title="Churn Prediction", layout="wide")
 
-# Optional Logo
+# Logo and title
 st.markdown("""
     <div style="display:flex; align-items:center; gap:10px;">
         <img src="https://img.icons8.com/emoji/48/magic-crystal-ball.png" width="40"/>
@@ -21,7 +21,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ✅ Shields and branding badges
+# Shields
 st.markdown("""
     <div style="display: flex; align-items: center; gap: 20px; margin-top: -10px; margin-bottom: 20px;">
         <a href="https://github.com/chetan-r25/churn-prediction/actions">
@@ -32,7 +32,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# File upload section
+# Upload section
 st.markdown("### 📤 Upload Customer CSV File")
 uploaded_file = st.file_uploader("Upload test data (.csv)", type=["csv"])
 
@@ -40,7 +40,7 @@ uploaded_file = st.file_uploader("Upload test data (.csv)", type=["csv"])
 def info(msg):
     st.markdown(f"<span style='color:gray;font-size:13px;'>{msg}</span>", unsafe_allow_html=True)
 
-# Preprocessing
+# Preprocessing function
 def preprocess_data(df):
     customer_ids = df['customerID'] if 'customerID' in df.columns else None
     df = df.drop(columns=['customerID', 'churned'], errors='ignore')
@@ -56,10 +56,6 @@ def preprocess_data(df):
 
     return pd.concat([encoded_df, scaled_df], axis=1), customer_ids
 
-# Sparkline mockup function
-def generate_sparkline():
-    return "▁▂▃▄▅▆▇"  # Placeholder sparkline
-
 # Risk label formatter
 def risk_label(prob):
     if prob >= 80:
@@ -69,15 +65,19 @@ def risk_label(prob):
     else:
         return "🟢 Low"
 
+# Sparkline generator
+def generate_sparkline():
+    return "▁▂▃▄▅▆▇"
+
 # Main logic
 if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-
-    st.subheader("📄 Uploaded Data Preview")
-    st.dataframe(df.head(10), use_container_width=True)
-    info("Showing first 10 rows of the uploaded data.")
-
     try:
+        df = pd.read_csv(uploaded_file)
+
+        st.subheader("📄 Uploaded Data Preview")
+        st.dataframe(df.head(10), use_container_width=True)
+        info("Showing first 10 rows of the uploaded data.")
+
         X, customer_ids = preprocess_data(df)
         churn_proba = model.predict_proba(X)[:, 1]
         df['Churn Probability (%)'] = (churn_proba * 100).round(2)
@@ -87,31 +87,54 @@ if uploaded_file:
             'Churn Probability (%)': df['Churn Probability (%)']
         })
 
-        # Color-coded probability display
+        # 🎯 Color-coded churn probabilities
         st.subheader("🎯 Churn Probabilities")
         info("Color-coded based on churn risk. Red = High risk, Green = Low risk.")
         styled_df = result_df.style.background_gradient(cmap='RdYlGn_r', subset=['Churn Probability (%)'])
         st.dataframe(styled_df, use_container_width=True)
 
-        # Top 10 high-risk with labels and sparkline
-        st.subheader("🚨 Top 10 At-Risk Customers")
-        info("Sorted by highest churn probability. Includes risk level and sparkline trend.")
+        # 🚨 Top 10 risky customers (table view)
+        st.subheader("🚨 Top 10 At-Risk Customers (Tabular View)")
         top10_df = result_df.sort_values("Churn Probability (%)", ascending=False).head(10).copy()
         top10_df["Risk Level"] = top10_df["Churn Probability (%)"].apply(risk_label)
         top10_df["Trend"] = [generate_sparkline() for _ in range(len(top10_df))]
         st.dataframe(top10_df[["customerID", "Churn Probability (%)", "Risk Level", "Trend"]], use_container_width=True)
 
-        # Histogram of churn probabilities
+        # 📌 Individual Risk View (Compact Layout)
+        st.subheader("📌 Visual Risk Cards for Top 10 Customers")
+        info("Compact cards with color-coded progress bars.")
+        cols_per_row = 3
+
+        for i in range(0, len(top10_df), cols_per_row):
+            cols = st.columns(cols_per_row)
+            for j in range(cols_per_row):
+                if i + j < len(top10_df):
+                    row = top10_df.iloc[i + j]
+                    prob = row["Churn Probability (%)"]
+                    customer = row["customerID"]
+
+                    if prob >= 80:
+                        risk_level = "🔴 High Risk"
+                    elif prob >= 40:
+                        risk_level = "🟡 Moderate Risk"
+                    else:
+                        risk_level = "🟢 Low Risk"
+
+                    with cols[j]:
+                        st.markdown(f"**🧾 `{customer}`**")
+                        st.markdown(f"{risk_level} — **{prob:.2f}%**")
+                        st.progress(float(prob) / 100)
+                        st.markdown("")
+
+        # 📊 Histogram
         st.subheader("📊 Churn Probability Distribution")
-        info("This histogram shows how churn probabilities are distributed across all uploaded customers.")
         fig, ax = plt.subplots(figsize=(10, 4))
         sns.histplot(df['Churn Probability (%)'], bins=20, kde=True, ax=ax, color="#3B82F6")
         ax.set_title("Distribution of Churn Probability")
         st.pyplot(fig)
 
-        # Line plot of churn risk trend
+        # 📈 Line Chart
         st.subheader("📈 Churn Risk Trend Across Customers")
-        info("Line chart of sorted churn risks to visualize trend across the customer base.")
         sorted_probs = df['Churn Probability (%)'].sort_values().reset_index(drop=True)
         fig3, ax3 = plt.subplots(figsize=(10, 4))
         ax3.plot(sorted_probs, color="#F97316", linewidth=2)
@@ -120,35 +143,41 @@ if uploaded_file:
         ax3.set_ylabel("Churn Probability (%)")
         st.pyplot(fig3)
 
-        # Feature importance barplot
+        # 📌 Feature Importance
         st.subheader("📌 Feature Importance (Model-based)")
-        info("Top features that most influence the churn prediction based on the XGBoost model.")
         try:
-            importance = model.feature_importances_
+            importances = model.feature_importances_
             feature_names = X.columns
             importance_df = pd.DataFrame({
                 'Feature': feature_names,
-                'Importance': importance
-            }).sort_values('Importance', ascending=False).head(10)
+                'Importance Score': importances
+            }).sort_values(by='Importance Score', ascending=False).head(10)
 
             fig2, ax2 = plt.subplots(figsize=(10, 5))
-            sns.barplot(data=importance_df, x="Importance", y="Feature", palette="coolwarm", ax=ax2)
-            ax2.set_title("Top 10 Important Features")
+            sns.barplot(data=importance_df, x='Importance Score', y='Feature', palette="viridis", ax=ax2)
+            ax2.set_title("Top 10 Most Influential Features", fontsize=14)
+            ax2.set_xlabel("Importance Score")
+            ax2.set_ylabel("Feature Name")
+            ax2.grid(True, linestyle='--', alpha=0.5)
             st.pyplot(fig2)
-        except:
-            st.warning("Feature importance could not be extracted from this model.")
 
-        # Enhanced download button
+        except Exception as e:
+            st.warning("⚠️ Could not extract feature importances.")
+            st.error(str(e))
+
+        # 📥 Download button
         st.download_button(
             label="📥 Download CSV Predictions",
             data=result_df.to_csv(index=False),
             file_name="churn_predictions.csv",
             mime="text/csv",
-            help="Download the churn predictions with customer IDs and probabilities."
+            help="Download the churn predictions with customer IDs and probabilities.",
+            key="unique_download_button"
         )
 
     except Exception as e:
         st.error(f"❌ Error: {e}")
 
+# Footer
 st.markdown("---")
-st.markdown("💡 *Built with ❤️ by Chetan Ramrakhya , Tushar Vashishth and AI*")
+st.markdown("💡 *Built with ❤️ by Chetan Ramrakhya, Tushar Vashishth and AI*")
