@@ -45,17 +45,7 @@ Built with ❤️ to help fintech companies retain customers through intelligent
 
 ## 📁 Folder Structure
 
-churn-prediction/
-│
-├── app.py # Streamlit main app
-├── xgb_churn_model.pkl # Trained XGBoost model
-├── encoder.pkl # Fitted OneHotEncoder
-├── scaler.pkl # Fitted StandardScaler
-├── requirements.txt # Python dependencies
-├── .github/
-│ └── workflows/
-│ └── deploy.yml # GitHub Actions deploy script
-└── README.md # This file
+<pre> ``` churn-prediction/ ├── app.py # Main Streamlit app ├── encoder.pkl # Trained OneHotEncoder ├── scaler.pkl # Trained StandardScaler ├── xgb_churn_model.pkl # Trained XGBoost model ├── requirements.txt # Python dependencies ├── README.md # Project documentation └── .github/ └── workflows/ └── deploy.yml # GitHub Actions deployment script ``` </pre>
 
 
 ---
