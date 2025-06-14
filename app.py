@@ -9,27 +9,15 @@ model = joblib.load("xgb_churn_model.pkl")
 encoder = joblib.load("encoder.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Set up Streamlit page
+# Set Streamlit page config
 st.set_page_config(page_title="Premium Churn Prediction", layout="wide")
 
 # Custom CSS styling
 st.markdown("""
     <style>
-    .main {
-        background-color: #f5f7fa;
-        font-family: 'Segoe UI', sans-serif;
-    }
-    .title {
-        color: #2e3b4e;
-        font-size: 36px;
-        font-weight: 700;
-    }
-    .subheader {
-        color: #4a5a6a;
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
+    .main { background-color: #f5f7fa; font-family: 'Segoe UI', sans-serif; }
+    .title { color: #2e3b4e; font-size: 36px; font-weight: 700; }
+    .subheader { color: #4a5a6a; font-size: 24px; font-weight: 600; margin-bottom: 20px; }
     .stButton>button {
         border-radius: 10px;
         padding: 10px 20px;
@@ -38,12 +26,7 @@ st.markdown("""
         font-weight: bold;
         border: none;
     }
-    .stButton>button:hover {
-        background-color: #2563eb;
-    }
-    .reportview-container .markdown-text-container {
-        padding: 2rem;
-    }
+    .stButton>button:hover { background-color: #2563eb; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -51,7 +34,8 @@ st.markdown('<div class="title">🔮 Customer Churn Prediction - Premium Dashboa
 
 # Preprocessing function
 def preprocess_data(df):
-    customer_ids = df['customerID'] if 'customerID' in df.columns else None
+    df = df.copy()
+    customer_ids = df['customerID'].reset_index(drop=True) if 'customerID' in df.columns else None
     df = df.drop('customerID', axis=1, errors='ignore')
 
     if 'churned' in df.columns:
@@ -67,10 +51,9 @@ def preprocess_data(df):
     scaled_df = pd.DataFrame(scaled, columns=num_cols)
 
     processed_df = pd.concat([encoded_df.reset_index(drop=True), scaled_df.reset_index(drop=True)], axis=1)
-
     return processed_df, customer_ids
 
-# App logic
+# Main app logic
 uploaded_file = st.file_uploader("📤 Upload your CSV file (telco_test.csv format)", type=["csv"])
 
 if uploaded_file:
@@ -84,8 +67,8 @@ if uploaded_file:
         df["Churn Probability (%)"] = (churn_proba * 100).round(2)
 
         result_df = pd.DataFrame({
-            "customerID": customer_ids,
-            "Churn Probability (%)": df["Churn Probability (%)"]
+            "customerID": customer_ids.values if customer_ids is not None else ["N/A"] * len(df),
+            "Churn Probability (%)": df["Churn Probability (%)"].values
         })
 
         st.markdown('<div class="subheader">📊 Churn Probabilities</div>', unsafe_allow_html=True)
@@ -96,7 +79,7 @@ if uploaded_file:
 
         st.download_button("📥 Download Results as CSV", data=result_df.to_csv(index=False), file_name="churn_predictions.csv")
 
-        # SHAP explanation
+        # SHAP Explainability
         st.markdown('<div class="subheader">📉 SHAP Explainability</div>', unsafe_allow_html=True)
         explainer = shap.Explainer(model)
         shap_values = explainer(X)
