@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 from io import StringIO
 
 # Initialize SHAP JavaScript
-shap.initjs()
+
 
 # Load the trained model and tools
 model = joblib.load("xgb_churn_model.pkl")
@@ -144,4 +144,4 @@ if uploaded_file:
 
 # Footer
 st.markdown("---")
-st.markdown('<p style="font-family:Fira Code; font-style:italic;">💡 Made with ❤️ by Chetan Ramrakhya & AI</p>', unsafe_allow_html=True)
+st.markdown('<p style="font-family:Fira Code; font-style:italic;">💡 Made with ❤️ by Chetan Ramrakhyagit add app.pygi & AI</p>', unsafe_allow_html=True)
