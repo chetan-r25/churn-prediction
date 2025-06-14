@@ -1,27 +1,33 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import streamlit.components.v1 as components
+from io import StringIO
 
-# Load model and tools
+# Initialize SHAP JavaScript
+shap.initjs()
+
+# Load the trained model and tools
 model = joblib.load("xgb_churn_model.pkl")
 encoder = joblib.load("encoder.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Streamlit config
+# Configure Streamlit page
 st.set_page_config(page_title="Churn Prediction", layout="wide")
 
-# Logo and title
+# --- Logo & Title ---
 st.markdown("""
     <div style="display:flex; align-items:center; gap:10px;">
         <img src="https://img.icons8.com/emoji/48/magic-crystal-ball.png" width="40"/>
-        <h1 style="color:#3B82F6;">Churn Prediction Dashboard</h1>
+        <h1 style="color:#3B82F6; font-family:'Fira Code', monospace;">Churn Prediction Dashboard</h1>
     </div>
 """, unsafe_allow_html=True)
 
-# Shields
+# --- Badges & Shields ---
 st.markdown("""
     <div style="display: flex; align-items: center; gap: 20px; margin-top: -10px; margin-bottom: 20px;">
         <a href="https://github.com/chetan-r25/churn-prediction/actions">
@@ -32,12 +38,14 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown("### 📤 Upload Customer CSV File")
+# --- File Upload ---
+st.markdown('<h3 style="font-family:\'Fira Code\', monospace;">📤 Upload Customer CSV File</h3>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Upload test data (.csv)", type=["csv"])
 
 def info(msg):
-    st.markdown(f"<span style='color:gray;font-size:13px;'>{msg}</span>", unsafe_allow_html=True)
+    st.markdown(f"<span style='color:gray;font-size:13px; font-family:Fira Code;'>{msg}</span>", unsafe_allow_html=True)
 
+# --- Preprocessing ---
 def preprocess_data(df):
     customer_ids = df['customerID'] if 'customerID' in df.columns else None
     df = df.drop(columns=['customerID', 'churned'], errors='ignore')
@@ -57,12 +65,13 @@ def risk_label(prob):
 def generate_sparkline():
     return "▁▂▃▄▅▆▇"
 
+# --- Main Execution ---
 if uploaded_file:
     try:
         df = pd.read_csv(uploaded_file)
-        st.subheader("📄 Uploaded Data Preview")
+        st.markdown('<h4 style="font-family:\'Fira Code\', monospace;">📄 Uploaded Data Preview</h4>', unsafe_allow_html=True)
         st.dataframe(df.head(10), use_container_width=True)
-        info("Showing first 10 rows of the uploaded data.")
+        info("Showing first 10 rows of uploaded data.")
 
         X, customer_ids = preprocess_data(df)
         churn_proba = model.predict_proba(X)[:, 1]
@@ -73,88 +82,61 @@ if uploaded_file:
             'Churn Probability (%)': df['Churn Probability (%)']
         })
 
-        st.subheader("🎯 Churn Probabilities")
-        info("Color-coded based on churn risk. Red = High risk, Green = Low risk.")
+        # Churn Probabilities Table
+        st.markdown('<h4 style="font-family:\'Fira Code\', monospace;">🎯 Churn Probabilities</h4>', unsafe_allow_html=True)
         styled_df = result_df.style.background_gradient(cmap='RdYlGn_r', subset=['Churn Probability (%)'])
         st.dataframe(styled_df, use_container_width=True)
 
-        st.subheader("🚨 Top 10 At-Risk Customers (Tabular View)")
+        # Top 10 Risk
+        st.markdown('<h4 style="font-family:\'Fira Code\', monospace;">🚨 Top 10 At-Risk Customers</h4>', unsafe_allow_html=True)
         top10_df = result_df.sort_values("Churn Probability (%)", ascending=False).head(10).copy()
         top10_df["Risk Level"] = top10_df["Churn Probability (%)"].apply(risk_label)
         top10_df["Trend"] = [generate_sparkline() for _ in range(len(top10_df))]
         st.dataframe(top10_df[["customerID", "Churn Probability (%)", "Risk Level", "Trend"]], use_container_width=True)
 
-        st.subheader("📌 Visual Risk Cards for Top 10 Customers")
-        info("Compact cards with color-coded progress bars.")
-        cols_per_row = 3
-        for i in range(0, len(top10_df), cols_per_row):
-            cols = st.columns(cols_per_row)
-            for j in range(cols_per_row):
-                if i + j < len(top10_df):
-                    row = top10_df.iloc[i + j]
-                    prob = float(row["Churn Probability (%)"])
-                    customer = row["customerID"]
-                    if prob >= 80:
-                        risk_level = "🔴 High Risk"
-                    elif prob >= 40:
-                        risk_level = "🟡 Moderate Risk"
-                    else:
-                        risk_level = "🟢 Low Risk"
-                    with cols[j]:
-                        st.markdown(f"**🧾 `{customer}`**")
-                        st.markdown(f"{risk_level} — **{prob:.2f}%**")
-                        st.progress(prob / 100)
-
-        st.subheader("📊 Churn Probability Distribution")
+        # Churn Distribution
+        st.markdown('<h4 style="font-family:\'Fira Code\', monospace;">📊 Churn Probability Distribution</h4>', unsafe_allow_html=True)
         fig, ax = plt.subplots(figsize=(10, 4))
         sns.histplot(df['Churn Probability (%)'], bins=20, kde=True, ax=ax, color="#3B82F6")
-        ax.set_title("Distribution of Churn Probability")
+        ax.set_title("Churn Probability Distribution", fontsize=14, fontname="Fira Code")
         st.pyplot(fig)
 
-        st.subheader("📈 Churn Risk Trend Across Customers")
-        sorted_probs = df['Churn Probability (%)'].sort_values().reset_index(drop=True)
-        fig3, ax3 = plt.subplots(figsize=(10, 4))
-        ax3.plot(sorted_probs, color="#F97316", linewidth=2)
-        ax3.set_title("Sorted Churn Probability Trend", fontsize=14)
-        ax3.set_xlabel("Customer Index (sorted by risk)")
-        ax3.set_ylabel("Churn Probability (%)")
-        st.pyplot(fig3)
+        # --- Explainability (Global + Local SHAP) ---
+        st.markdown('<h4 style="font-family:\'Fira Code\', monospace;">🔍 Explainability with SHAP</h4>', unsafe_allow_html=True)
 
-        st.subheader("📌 Feature Importance (Radar View)")
-        try:
-            importances = model.feature_importances_
-            feature_names = X.columns
-            top_n = 10
-            importance_df = pd.DataFrame({
-                'Feature': feature_names,
-                'Importance': importances
-            }).sort_values(by='Importance', ascending=False).reset_index(drop=True).head(top_n)
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(X)
 
-            # Add first row again to close radar loop
-            importance_df = pd.concat([importance_df, importance_df.iloc[[0]]], ignore_index=True)
+        # Global Summary Plot
+        st.markdown("#### 🌐 Global Feature Importance (SHAP Summary)")
+        fig_summary = plt.figure()
+        shap.summary_plot(shap_values, X, show=False, plot_type="bar")
+        st.pyplot(fig_summary)
 
-            angles = np.linspace(0, 2 * np.pi, len(importance_df), endpoint=False).tolist()
-            importance_df['Angle'] = angles
+        # Local SHAP Explainability - Force Plot
+        if customer_ids is not None:
+            selected_cust = st.selectbox("Select Customer ID for local explanation", options=customer_ids)
+            cust_idx = customer_ids[customer_ids == selected_cust].index[0]
+            st.markdown(f"<p style='font-family:Fira Code;'><b>Force Plot for Customer: `{selected_cust}`</b></p>", unsafe_allow_html=True)
 
-            fig4 = plt.figure(figsize=(6, 6))
-            ax4 = fig4.add_subplot(111, polar=True)
-            ax4.plot(importance_df['Angle'], importance_df['Importance'], color='#10B981', linewidth=2)
-            ax4.fill(importance_df['Angle'], importance_df['Importance'], alpha=0.3)
-            ax4.set_xticks(angles[:-1])
-            ax4.set_xticklabels(importance_df['Feature'][:-1], fontsize=9)
-            ax4.set_title("Top 10 Feature Importances", fontsize=14)
-            st.pyplot(fig4)
-        except Exception as e:
-            st.warning("⚠️ Could not plot feature importances.")
-            st.error(str(e))
+            # Create force plot
+            force_plot = shap.force_plot(
+                base_value=explainer.expected_value,
+                shap_values=shap_values[cust_idx],
+                features=X.iloc[cust_idx],
+                matplotlib=False
+            )
 
+            html = f"<head>{shap.getjs()}</head><body>{force_plot.html()}</body>"
+            components.html(html, height=400, scrolling=True)
+
+        # Download Button
         st.download_button(
             label="📥 Download CSV Predictions",
             data=result_df.to_csv(index=False),
             file_name="churn_predictions.csv",
             mime="text/csv",
             help="Download the churn predictions with customer IDs and probabilities.",
-            key="unique_download_button"
         )
 
     except Exception as e:
@@ -162,4 +144,4 @@ if uploaded_file:
 
 # Footer
 st.markdown("---")
-st.markdown("💡 *Built with ❤️ by Chetan Ramrakhya, Tushar Vashishth and AI*")
+st.markdown('<p style="font-family:Fira Code; font-style:italic;">💡 Made with ❤️ by Chetan Ramrakhya & AI</p>', unsafe_allow_html=True)
