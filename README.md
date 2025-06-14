@@ -2,74 +2,87 @@
   <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Model-XGBoost-orange" />
   <img src="https://img.shields.io/badge/Built_with-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
-  <img src="https://img.shields.io/badge/Deployment-Auto_via_GitHub_Actions-success?logo=github" />
+  <img src="https://github.com/chetan-r25/churn-prediction/actions/workflows/deploy.yml/badge.svg" alt="GitHub Actions Status" />
   <img src="https://img.shields.io/badge/Hackathon_Beast-%F0%9F%90%BE-blueviolet" />
   <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction" />
 </p>
 
 ---
 
-# 🔍 Customer Churn Prediction Dashboard
+```text
+   _____ _                      _____           _     _             
+  / ____| |                    |  __ \         (_)   | |            
+ | |    | |__   ___  ___ ___   | |__) |_ _ _ __ _  __| | ___  _ __  
+ | |    | '_ \ / _ \/ __/ __|  |  ___/ _` | '__| |/ _` |/ _ \| '_ \ 
+ | |____| | | |  __/\__ \__ \  | |  | (_| | |  | | (_| | (_) | | | |
+  \_____|_| |_|\___||___/___/  |_|   \__,_|_|  |_|\__,_|\___/|_| |_|
 
-A powerful, AI-driven churn prediction tool designed during a 48-hour hackathon.  
-Built with ❤️ to help fintech companies retain customers through intelligent insights and visual explainability.
+     🧠 AI-Driven Churn Prediction Dashboard • Built in 48hrs
 
-🔗 **Live App**: [Click here to try it](https://churn-prediction-7oengduhpztxudfa56kppu.streamlit.app)
+🔍 Customer Churn Prediction Dashboard
+A powerful, AI-powered churn prediction tool crafted during a 48-hour hackathon to help businesses retain their customers with confidence.
 
----
+🎯 Live App: Click here to try it 🚀
 
-## 🎯 Features
+✨ Features
+📤 Upload .csv customer data
 
-- ✅ Upload `.csv` customer data  
-- 🎓 Predict churn probability for each customer  
-- 📊 Color-coded churn scores with top-10 high-risk alerts  
-- 📥 Download predictions directly as CSV  
-- 📈 Interactive visuals of churn trends  
-- 🧠 Feature importance bar plot (XGBoost-based)  
-- 🚀 Deployed using **Streamlit Cloud** with GitHub auto-deploy  
+📊 Predict churn probability for every customer
 
----
+🎯 View top 10 at-risk customers with risk levels (🔴 / 🟡 / 🟢)
 
-## 📦 Tech Stack
+🧠 Model-based feature importance plot
 
-| Component        | Tool                             |
-|------------------|----------------------------------|
-| ML Model         | XGBoost                          |
-| Preprocessing    | OneHotEncoder, StandardScaler    |
-| Frontend         | Streamlit                        |
-| Visualization    | Matplotlib, Seaborn              |
-| Deployment       | GitHub Actions + Streamlit Cloud |
-| Explainability   | Feature Importance Bars          |
+📈 Visual insights: histogram + trend line of churn probabilities
 
----
+📥 Download predictions directly as .csv
 
-## 📁 Folder Structure
+🔁 Auto-deployed via GitHub Actions + Streamlit Cloud
 
-<pre> ``` churn-prediction/ ├── app.py # Main Streamlit app ├── encoder.pkl # Trained OneHotEncoder ├── scaler.pkl # Trained StandardScaler ├── xgb_churn_model.pkl # Trained XGBoost model ├── requirements.txt # Python dependencies ├── README.md # Project documentation └── .github/ └── workflows/ └── deploy.yml # GitHub Actions deployment script ``` </pre>
+⚙️ Tech Stack
 
+| Layer          | Tool                             |
+| -------------- | -------------------------------- |
+| ML Model       | XGBoost                          |
+| Encoding       | `OneHotEncoder`                  |
+| Scaling        | `StandardScaler`                 |
+| Frontend UI    | Streamlit                        |
+| Plots & Viz    | Matplotlib, Seaborn              |
+| Deployment     | GitHub Actions + Streamlit Cloud |
+| Explainability | Feature Importance (XGBoost)     |
 
----
+📁 Project Structure
+churn-prediction/
+├── app.py                  # Streamlit dashboard
+├── encoder.pkl             # Fitted encoder
+├── scaler.pkl              # Fitted scaler
+├── xgb_churn_model.pkl     # Trained model
+├── requirements.txt        # Dependencies
+├── README.md               # This documentation
+└── .github/
+    └── workflows/
+        └── deploy.yml      # GitHub Actions deploy pipeline
 
-## 🧪 How to Run Locally
-
-```bash
+🧪 Local Run Instructions
 git clone https://github.com/chetan-r25/churn-prediction
 cd churn-prediction
 pip install -r requirements.txt
 streamlit run app.py
 
-🧠 Model Insights
-🎯 XGBoost model tuned for high AUC-ROC score
 
-🎨 Color-coded churn risk for intuitive spotting
+🔐 Privacy & Security
+The app runs entirely client-side in your browser.
 
-📊 Bar plots show top influencing features per customer
+Your uploaded data is never stored or shared.
 
-🔒 Security
-This app runs entirely client-side and does not store any uploaded data.
-Your customer files remain private.
+Ideal for quick, secure churn evaluations in real time.
 
-👨‍💻 Contributed For
-🧑‍🚀 Hackathon Beast Challenge — 48-hour challenge to build the smartest churn predictor.
 
-Made with ❤️ by Chetan , Tushar and AI.
+🚀 Hackathon Contribution
+Built for Hackathon Beast 2025 — a 48-hour challenge to create an intelligent AI product from scratch.
+Our goal: deliver insights, impact, and interpretability in minutes.
+
+❤️ Made with care by
+Chetan Ramrakhya, Tushar Vashishth, and AI.
+
+“Made with ❤️ for the Hackathon”
