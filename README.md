@@ -1,59 +1,56 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Model-XGBoost-orange" />
-  <img src="https://img.shields.io/badge/Built_with-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
-  <img src="https://img.shields.io/badge/Deployment-Auto_via_GitHub_Actions-success?logo=github" />
-  <img src="https://img.shields.io/badge/Hackathon_Beast-%F0%9F%90%BE-blueviolet" />
-  <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction" />
+  <img src="https://img.shields.io/badge/Model-XGBoost-orange?logo=xgboost" />
+  <img src="https://img.shields.io/badge/Framework-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deployment-Live-success?logo=vercel&style=flat" />
+  <img src="https://img.shields.io/github/last-commit/chetan-r25/churn-prediction?color=brightgreen" />
+</p>
+
+<h1 align="center">🔮 Customer Churn Prediction Tool</h1>
+
+<p align="center">
+  🚀 Built in a 48-hour hackathon to identify customers at risk of churning using AI, and provide actionable insights with a clean interactive dashboard.
 </p>
 
 ---
 
-# 🔍 Customer Churn Prediction Dashboard
+## 🔗 Live App
 
-A powerful, AI-driven churn prediction tool designed during a 48-hour hackathon. Built with ❤️ to help fintech companies retain customers through intelligent insights and visual explainability.
-
-🔗 **Live App**: [Click here to try it](https://churn-prediction-7oengduhpztxudfa56kppu.streamlit.app)
+**🌐 [Try the App Now](https://churn-prediction-7oengduhpztxudfa56kppu.streamlit.app/)**
 
 ---
 
-## 🎯 Features
+## 📦 Features
 
-- ✅ Upload `.csv` customer data  
-- 🎓 Predict churn probability for each customer  
-- 📊 Color-coded churn scores with top-10 high-risk alerts  
-- 📥 Download predictions directly as CSV  
-- 📈 Interactive visuals of churn trends  
-- 🧠 Feature importance bar plot (XGBoost-based)  
-- 🚀 Deployed using **Streamlit Cloud** with GitHub auto-deploy  
-
----
-
-## 📦 Tech Stack
-
-| Component        | Tool                     |
-|------------------|--------------------------|
-| ML Model         | XGBoost                  |
-| Preprocessing    | OneHotEncoder, StandardScaler |
-| Frontend         | Streamlit                |
-| Visualization    | Matplotlib, Seaborn      |
-| Deployment       | GitHub Actions + Streamlit Cloud |
-| Explainability   | Feature Importance Bars (SHAP optional) |
+- 📤 Upload your `.csv` customer dataset
+- 🧠 Predict **Churn Probabilities** with a trained **XGBoost** model
+- 🌈 Color-coded results for better interpretation
+- 🚨 Highlights Top 10 high-risk customers
+- 📈 Churn distribution visual (bar graph)
+- 📉 SHAP-based feature importance for insights
+- 💾 Download predictions as CSV
+- 💻 Live deployment (auto-updates from GitHub)
 
 ---
 
-## 🖼️ Screenshots
+## 🛠 Tech Stack
 
-| Prediction View | Churn Distribution |
-|-----------------|--------------------|
-| ![Prediction Table](assets/pred_table.png) | ![Churn Chart](assets/proba_chart.png) |
+| Layer         | Tool/Library                          |
+|--------------|----------------------------------------|
+| Frontend     | Streamlit (Python Web App Framework)   |
+| ML Model     | XGBoost (Ensemble Learning)            |
+| Preprocessing| Scikit-learn: OneHotEncoder, Scaler    |
+| Explainability | SHAP (SHapley Additive exPlanations) |
+| Visuals      | Matplotlib, Seaborn                    |
+| Deployment   | Streamlit Cloud                        |
 
 ---
 
-## 🧪 How to Run Locally
+## 🧪 Demo
 
-```bash
-git clone https://github.com/chetan-r25/churn-prediction
-cd churn-prediction
-pip install -r requirements.txt
-streamlit run app.py
+> 🖼️ Screenshots or demo video coming soon!
+
+---
+
+## 📂 Folder Structure
+
