@@ -8,3 +8,5 @@ joblib
 scikit-learn
 xgboost
 shap==0.44.0
+fastapi
+pydantic
